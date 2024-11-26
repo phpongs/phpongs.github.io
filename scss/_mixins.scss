@@ -1,0 +1,50 @@
+// _mixins.scss
+
+/*
+    author: Pongs Phimnualsri
+    no.:    A01364284
+    date:   2024.11.25
+    notes:  final-project
+*/
+
+@mixin flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  @mixin text-shadow-outline {
+    text-shadow: 
+      2px 2px 0 $color-primary,
+      -2px -2px 0 $color-primary,
+      2px -2px 0 $color-primary,
+      -2px 2px 0 $color-primary;
+  }
+  
+  @mixin text-shadow-soft {
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  }
+  
+  @mixin button-base {
+    font-family: $font-primary;
+    padding: $spacing-sm $spacing-lg;
+    background-color: $color-primary;
+    color: $color-white;
+    border: none;
+    cursor: pointer;
+    font-size: 1em;
+  
+    &:disabled {
+      background-color: $color-disabled;
+      cursor: not-allowed;
+    }
+  
+    &:not(:disabled):hover {
+      opacity: 0.5;
+    }
+  }
+  
+  @mixin section-border {
+    border: 2px solid $color-border;
+    padding: $spacing-lg;
+  }

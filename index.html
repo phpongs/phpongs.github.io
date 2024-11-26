@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<!--
+    author: Pongs Phimnualsri
+    no.:    A01364284
+    date:   2024.11.25
+    notes:  final-project
+-->
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="css/style.css">
+        <script src="js/game.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+        <title>Final Project</title>
+    </head>
+
+    <body>
+        <div id="wrapper">
+            <h1>DICE BATTLE</h1>
+    
+            <div class="game-container">
+                <h3 class="round-counter">Round: <span id="currentRound">0</span>/3</h3>
+                <div class="player-section">
+                    <h3>🫵 YOU 🫵</h3>
+                    <div class="dice-container">
+                        <img src="images/dice-six-faces-one.svg" alt="Player Dice 1" id="playerDice1">
+                        <img src="images/dice-six-faces-one.svg" alt="Player Dice 2" id="playerDice2">
+                    </div>
+                    <p>Score: <span id="playerRoundScore">0</span></p>
+                    <p><strong>Total Score: </strong><span id="playerTotalScore">0</span></p>
+                </div>
+    
+                <div class="computer-section">
+                    <h3>🤖 COM 🤖</h3>
+                    <div class="dice-container">
+                        <img src="images/dice-six-faces-one.svg" alt="Computer Dice 1" id="computerDice1">
+                        <img src="images/dice-six-faces-one.svg" alt="Computer Dice 2" id="computerDice2">
+                    </div>
+                    <p>Score: <span id="computerRoundScore">0</span></p>
+                    <p><strong>Total Score: </strong><span id="computerTotalScore">0</span></p>
+                </div>
+    
+                <div class="controls">
+                    <button id="rollButton">Roll Dice</button>
+                    <button id="resetButton">New Game</button>
+                </div>
+    
+                <div id="message"></div>
+            </div>
+    
+            <div id="popup" class="popup">
+                <div class="popup-header">
+                    <h3>How to Play:</h3>
+                    <button class="close-btn">×</button>
+                </div>
+                <div class="popup-content">
+                    <p>
+                        - The user and the computer each roll a pair of dice 3 times. After the third roll of the dice the player with highest score wins. <br>
+                        - If any of the players two dice comes up as a 1 then the score for that round for the player is 0<br>
+                        - If the player rolls a pair of the same numbers then the players score is the total of the two dice times 2<br>
+                        - If the player rolls any other combination of dice other than the ones mentioned above then the players score is the total value of the two dice<br>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </body>
+
+</html>
