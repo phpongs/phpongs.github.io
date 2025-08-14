@@ -1,0 +1,147 @@
+/*
+ * GENERAL STYLES
+ * ========================================================================== */
+
+body {
+    font-family: 'Inter', sans-serif;
+    overflow: hidden; /* Prevent scrolling on the body */
+}
+
+/*
+ * CUSTOM CSS VARIABLES (THEME)
+ * ========================================================================== */
+
+:root {
+    --accent-color: #356854;
+    --accent-color-hover: #2a5042;
+    --accent-color-light: #a2c4b8;
+}
+
+.bg-accent { background-color: var(--accent-color); }
+.bg-accent-hover:hover { background-color: var(--accent-color-hover); }
+.text-accent { color: var(--accent-color); }
+
+
+/*
+ * FORM ELEMENT STYLES
+ * ========================================================================== */
+
+/* Custom Range Input */
+input[type="range"] {
+    -webkit-appearance: none; 
+    appearance: none;
+    width: 100%; 
+    height: 8px; 
+    background: #d1d5db; /* gray-300 */
+    border-radius: 9999px; 
+    outline: none; 
+    opacity: 0.7;
+    transition: opacity .2s;
+}
+
+input[type="range"]:hover { 
+    opacity: 1; 
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none; 
+    appearance: none;
+    width: 20px; 
+    height: 20px; 
+    background: var(--accent-color);
+    cursor: pointer; 
+    border-radius: 9999px; 
+    border: 2px solid white;
+}
+
+/* Number Inputs and Selects */
+input[type="number"], select {
+    -moz-appearance: textfield; /* For Firefox */
+    width: 60px; 
+    padding: 4px 8px; 
+    border-radius: 6px;
+    border: 1px solid #d1d5db; /* gray-300 */
+    text-align: center;
+}
+
+select { 
+    width: 100%; 
+    text-align: left;
+}
+
+/* Hide spinners on number inputs for Chrome, Safari, Edge, Opera */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none; 
+    margin: 0;
+}
+
+/*
+ * UI COMPONENT STYLES
+ * ========================================================================== */
+
+/* Disabled State */
+button:disabled, input:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Plan View Cursor */
+#plan-view { 
+    cursor: grab; 
+}
+#plan-view:active { 
+    cursor: grabbing; 
+}
+
+/* Unit Toggle Switch */
+.switch { 
+    position: relative; 
+    display: inline-block; 
+    width: 60px; 
+    height: 34px; 
+}
+.switch input { 
+    opacity: 0; 
+    width: 0; 
+    height: 0; 
+}
+.slider { 
+    position: absolute; 
+    cursor: pointer; 
+    top: 0; 
+    left: 0; 
+    right: 0; 
+    bottom: 0; 
+    background-color: #ccc; 
+    transition: .4s; 
+    border-radius: 34px; 
+}
+.slider:before { 
+    position: absolute; 
+    content: ""; 
+    height: 26px; 
+    width: 26px; 
+    left: 4px; 
+    bottom: 4px; 
+    background-color: white; 
+    transition: .4s; 
+    border-radius: 50%; 
+}
+input:checked + .slider { 
+    background-color: var(--accent-color); 
+}
+input:checked + .slider:before { 
+    transform: translateX(26px); 
+}
+
+/* Active Floor Thumbnail */
+.thumbnail-active {
+    border-color: var(--accent-color) !important;
+    box-shadow: 0 0 0 2px var(--accent-color);
+}
+
+/* 2D Plan SVG Elements */
+#left-stair-plan, #right-stair-plan {
+    fill: #FFC885; /* Corresponds to STAIR_INFO.color */
+}

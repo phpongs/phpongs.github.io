@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stack Config</title>
+    
+    <!-- External Libraries -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+    
+    <!-- Three.js Library -->
+    <script async src="https://unpkg.com/es-module-shims@1.6.3/dist/es-module-shims.js"></script>
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://cdn.jsdelivr.net/npm/three@0.157.0/build/three.module.js",
+          "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.157.0/examples/jsm/"
+        }
+      }
+    </script>
+    
+    <!-- Fonts and Custom Styles -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+
+</head>
+<body class="bg-gray-100 text-gray-800 flex h-screen">
+
+    <!-- Control Panel -->
+    <aside class="w-72 md:w-80 bg-white p-6 shadow-lg flex flex-col space-y-6 overflow-y-auto">
+        <!-- Header -->
+        <div class="flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-accent"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                <h1 class="text-2xl font-bold text-gray-900">Stack Config</h1>
+            </div>
+        </div>
+        
+        <!-- Project Input Section -->
+        <div class="border-t border-gray-200 pt-6 space-y-6">
+            <div class="flex items-center justify-between">
+                <h2 class="text-lg font-semibold text-gray-800">Project Input</h2>
+                <button id="unit-toggle-btn" class="bg-gray-200 text-gray-700 text-xs font-semibold py-1 px-3 rounded-full hover:bg-gray-300 transition-colors">
+                    Switch to Metric
+                </button>
+            </div>
+            <!-- Width -->
+            <div>
+                <label for="width-slider" class="block text-sm font-medium text-gray-700">Width</label>
+                <div class="flex items-center space-x-2 mt-2">
+                    <input id="width-slider" type="range" class="w-full">
+                    <input id="width-input" type="number">
+                    <span id="width-unit" class="w-4">ft</span>
+                </div>
+            </div>
+            <!-- Length -->
+            <div>
+                <label for="depth-slider" class="block text-sm font-medium text-gray-700">Length</label>
+                <div class="flex items-center space-x-2 mt-2">
+                    <input id="depth-slider" type="range" class="w-full" disabled>
+                    <input id="depth-input" type="number" disabled>
+                    <span id="depth-unit" class="w-4">ft</span>
+                </div>
+            </div>
+            <!-- Height -->
+            <div>
+                <label for="height-slider" class="block text-sm font-medium text-gray-700">Total Height</label>
+                <div class="flex items-center space-x-2 mt-2">
+                    <input id="height-slider" type="range" class="w-full">
+                    <input id="height-input" type="number">
+                    <span id="height-unit" class="w-4">ft</span>
+                </div>
+            </div>
+            <!-- Floor Height -->
+            <div>
+                <label for="floor-height-select" class="block text-sm font-medium text-gray-700">Floor Height</label>
+                <select id="floor-height-select" class="mt-2"></select>
+            </div>
+            <!-- Toggles -->
+            <div class="flex items-center justify-between">
+                 <span class="font-semibold">Include Stairs</span>
+                 <label class="switch">
+                    <input type="checkbox" id="stairs-toggle" checked>
+                    <span class="slider"></span>
+                </label>
+            </div>
+            <!-- Info Display -->
+             <div class="flex justify-between items-center font-semibold">
+                <span>Number of Floors:</span>
+                <span id="floor-count" class="text-accent">3</span>
+            </div>
+            <div class="flex justify-between items-center font-semibold">
+                <span>Modules per Floor:</span>
+                <span id="modules-per-floor" class="text-accent">0</span>
+            </div>
+            <div class="flex justify-between items-center font-semibold">
+                <span>Total Modules:</span>
+                <span id="total-modules" class="text-accent">0</span>
+            </div>
+            <!-- Area Display -->
+            <div class="flex justify-between items-center font-semibold mt-4 pt-4 border-t border-gray-200">
+                <span class="text-lg">Footprint Area:</span>
+                <span id="footprint-area" class="text-accent text-lg">0 ft²</span>
+            </div>
+            <div class="flex justify-between items-center font-semibold">
+                <span class="text-lg">Total Area:</span>
+                <span id="total-area" class="text-accent text-lg">0 ft²</span>
+            </div>
+        </div>
+
+        <!-- Suite Mix Section -->
+        <div class="border-t border-gray-200 pt-6 space-y-6">
+            <h2 class="text-lg font-semibold text-gray-800">Suite Mix</h2>
+            <div class="space-y-4" id="suite-mix-controls">
+                <!-- Suite mix controls will be populated by JS, or can be hardcoded here -->
+                <div><label for="studio-slider" class="block text-sm font-medium text-gray-700">Studio</label><div class="flex items-center space-x-2 mt-1"><input id="studio-slider" data-suite-id="studio" type="range" min="0" max="100" value="25" class="w-full suite-slider"><input id="studio-input" data-suite-id="studio" type="number" min="0" max="100" value="25" class="suite-input"><span class="w-4">%</span></div></div>
+                <div><label for="one-bed-slider" class="block text-sm font-medium text-gray-700">1 Bedroom</label><div class="flex items-center space-x-2 mt-1"><input id="one-bed-slider" data-suite-id="one-bed" type="range" min="0" max="100" value="50" class="w-full suite-slider"><input id="one-bed-input" data-suite-id="one-bed" type="number" min="0" max="100" value="50" class="suite-input"><span class="w-4">%</span></div></div>
+                <div><label for="two-bed-slider" class="block text-sm font-medium text-gray-700">2 Bedroom</label><div class="flex items-center space-x-2 mt-1"><input id="two-bed-slider" data-suite-id="two-bed" type="range" min="0" max="100" value="25" class="w-full suite-slider"><input id="two-bed-input" data-suite-id="two-bed" type="number" min="0" max="100" value="25" class="suite-input"><span class="w-4">%</span></div></div>
+                <div><label for="three-bed-slider" class="block text-sm font-medium text-gray-700">3 Bedroom</label><div class="flex items-center space-x-2 mt-1"><input id="three-bed-slider" data-suite-id="three-bed" type="range" min="0" max="100" value="0" class="w-full suite-slider"><input id="three-bed-input" data-suite-id="three-bed" type="number" min="0" max="100" value="0" class="suite-input"><span class="w-4">%</span></div></div>
+            </div>
+            <div class="flex justify-between items-center mt-4 font-semibold">
+                <span>Total:</span>
+                <span id="suite-total-percentage" class="text-green-600">100%</span>
+            </div>
+            <button id="confirm-suite-mix" class="w-full mt-2 bg-accent text-white font-bold py-2 px-4 rounded-lg shadow-md hover:bg-accent-hover transition-colors">Confirm Mix</button>
+            <div class="mt-4"><canvas id="suite-mix-chart"></canvas></div>
+        </div>
+        
+        <!-- Summary Section -->
+        <div id="summary-section" class="border-t border-gray-200 pt-6 space-y-2 hidden">
+            <h2 class="text-lg font-semibold text-gray-800">Building Summary</h2>
+            <table id="summary-table" class="w-full text-sm">
+                <thead>
+                    <tr class="text-left font-semibold border-b">
+                        <th class="p-1">Suite Type</th>
+                        <th class="p-1 text-right">Count</th>
+                        <th class="p-1 text-right">Actual %</th>
+                    </tr>
+                </thead>
+                <tbody id="summary-table-body"></tbody>
+            </table>
+            <button id="see-detail-btn" class="w-full text-sm text-center text-blue-600 hover:underline mt-2">See Detail</button>
+        </div>
+        <div class="flex-grow"></div>
+    </aside>
+
+    <!-- Main Viewport -->
+    <main class="flex-1 bg-gray-200 flex items-center justify-center p-4 md:p-8">
+        <div id="view-container" class="w-full h-full bg-white rounded-lg shadow-inner relative">
+            <!-- Floor Thumbnails for 2D View -->
+            <div id="floor-thumbnails" class="absolute bottom-4 left-1/2 -translate-x-1/2 z-10 bg-white/70 backdrop-blur-sm p-2 rounded-lg shadow-md flex items-center space-x-2 hidden"></div>
+            
+            <!-- 2D Plan View -->
+            <div id="plan-view" class="w-full h-full flex items-center justify-center">
+                <svg id="plan-svg" width="95%" height="95%" viewBox="0 0 500 500">
+                    <g id="plan-module-group"></g>
+                    <rect id="left-stair-plan" />
+                    <rect id="right-stair-plan" />
+                    <line id="width-dim-line" class="dim-element" stroke="#374151" stroke-width="0.2" stroke-dasharray="4 2" />
+                    <text id="width-dim-text" class="dim-element" fill="#374151" font-size="4" text-anchor="middle"></text>
+                    <line id="depth-dim-line" class="dim-element" stroke="#374151" stroke-width="0.2" stroke-dasharray="4 2" />
+                    <text id="depth-dim-text" class="dim-element" fill="#374151" font-size="4" text-anchor="middle" dominant-baseline="central"></text>
+                    <line id="south-depth-dim-line" class="dim-element" stroke="#374151" stroke-width="0.2" stroke-dasharray="4 2" />
+                    <text id="south-depth-dim-text" class="dim-element" fill="#374151" font-size="4" text-anchor="middle" dominant-baseline="central"></text>
+                    <line id="north-depth-dim-line" class="dim-element" stroke="#374151" stroke-width="0.2" stroke-dasharray="4 2" />
+                    <text id="north-depth-dim-text" class="dim-element" fill="#374151" font-size="4" text-anchor="middle" dominant-baseline="central"></text>
+                </svg>
+            </div>
+
+            <!-- 3D View -->
+            <div id="three-view" class="w-full h-full hidden">
+                <canvas id="three-canvas"></canvas>
+            </div>
+            
+            <!-- Viewport Controls -->
+            <div class="absolute top-4 left-4 z-10">
+                <button id="view-toggle-btn" class="bg-white px-4 py-2 rounded-full shadow-md hover:bg-gray-100 transition text-sm font-medium text-gray-800">Switch to 3D View</button>
+            </div>
+            <div class="absolute top-4 right-4 z-10 flex items-center space-x-3">
+                <!-- Dimensions Toggle -->
+                <div class="bg-white px-3 py-2 rounded-full shadow-md flex items-center space-x-2">
+                    <span class="text-sm font-medium text-gray-600">Dimensions</span>
+                    <label class="switch">
+                        <input type="checkbox" id="dimensions-toggle" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <!-- Reset View Button -->
+                <button id="reset-view-btn" class="bg-white p-2 rounded-full shadow-md hover:bg-gray-100 transition" title="Reset View">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 2v6h6"/><path d="M21 12A9 9 0 0 0 6 5.3L3 8"/><path d="M21 22v-6h-6"/><path d="M3 12a9 9 0 0 0 15 6.7l3-2.7"/></svg>
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Detail Modal -->
+    <div id="detail-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden z-50">
+        <div class="bg-white rounded-lg shadow-xl w-full max-w-4xl max-h-[90vh] flex flex-col">
+            <div class="flex justify-between items-center p-4 border-b">
+                <h2 class="text-xl font-bold">Detailed Building Summary</h2>
+                <button id="close-modal-btn" class="text-gray-500 hover:text-gray-800 text-2xl leading-none">&times;</button>
+            </div>
+            <div class="p-4 overflow-y-auto">
+                <table id="detail-summary-table" class="w-full text-sm">
+                     <thead>
+                        <tr class="text-left font-semibold border-b bg-gray-50">
+                            <th class="p-2">Suite Type</th>
+                            <th class="p-2 text-right">Count</th>
+                            <th class="p-2 text-right">Modules Count</th>
+                            <th class="p-2">Modules</th>
+                            <th class="p-2 text-right">Desired %</th>
+                            <th class="p-2 text-right">Actual %</th>
+                            <th class="p-2 text-right">Total Area</th>
+                        </tr>
+                    </thead>
+                    <tbody id="detail-summary-table-body"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Application Script -->
+    <script type="module" src="script.js"></script>
+</body>
+</html>
